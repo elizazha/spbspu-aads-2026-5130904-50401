@@ -15,7 +15,6 @@ namespace zhuravleva
     friend class List< T >;
 
   public:
-
     LIter() noexcept:
       current_(nullptr)
     {}
@@ -64,6 +63,11 @@ namespace zhuravleva
       return current_->data;
     }
 
+    T* operator->() const
+    {
+      return &(**this);
+    }
+
     bool operator==(const LIter& other) const noexcept
     {
       return current_ == other.current_;
@@ -77,6 +81,7 @@ namespace zhuravleva
   private:
     detail::Node< T >* current_;
   };
+
 
   template< class T >
   class LCIter
@@ -130,6 +135,11 @@ namespace zhuravleva
         throw std::runtime_error("null iterator");
       }
       return current_->data;
+    }
+
+    const T* operator->() const
+    {
+      return &(**this);
     }
 
     bool operator==(const LCIter& other) const noexcept

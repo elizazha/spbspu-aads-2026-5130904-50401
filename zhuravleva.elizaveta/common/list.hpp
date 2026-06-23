@@ -66,6 +66,7 @@ namespace zhuravleva
     void popFront() noexcept;
     void popBack() noexcept;
     void eraseAfter(LIter< T > pos);
+     void erase(LIter< T > pos);
     void clear() noexcept;
     void swap(List& other) noexcept;
 
@@ -465,6 +466,28 @@ namespace zhuravleva
       prev->next = fake_;
       delete cur;
     }
+  }
+
+  template< class T >
+  void List< T >::erase(LIter< T > pos)
+  {
+    if (!pos.current_ || pos.current_ == fake_)
+    {
+      throw std::runtime_error("invalid iterator");
+    }
+    detail::Node< T >* prev = fake_;
+    detail::Node< T >* cur = fake_->next;
+    while (cur != fake_ && cur != pos.current_)
+    {
+      prev = cur;
+      cur = cur->next;
+    }
+    if (cur == fake_)
+    {
+      throw std::runtime_error("element not found");
+    }
+    prev->next = cur->next;
+    delete cur;
   }
 
   template< class T >
